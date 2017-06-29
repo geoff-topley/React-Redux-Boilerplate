@@ -1,48 +1,45 @@
-import React, {Component} from 'react';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
-import {selectUser} from '../actions/index'
-
+import React, {Component} from 'react'
+import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
+import {selectUser} from '../actions/actionIndex'
 
 class UserList extends Component {
 
-    renderList() {
-        return this.props.users.map((user) => {
-            return (
-                <li
-                    key={user.id}
-                    onClick={() => this.props.selectUser(user)}
-                >
-                    {user.first} {user.last}
-                </li>
-            );
-        });
-    }
+  createListItems() {
+    return this.props.users.map((user, index) => {
+      return(
+        <li key={index} onClick={()=> this.props.selectUser(user)}>
+          {user.first} {user.last}
+        </li>
+      )
+    })
+  }
 
-    render() {
-        return (
-            <ul>
-                {this.renderList()}
-            </ul>
-        );
-    }
 
+
+  render() {
+    return(
+      <ul>
+        {this.createListItems()}
+      </ul>
+    )
+  }
 }
 
-// Get apps state and pass it as props to UserList
-//      > whenever state changes, the UserList will automatically re-render
+// CONTAINER
+// map Store state to props that can be called in component
 function mapStateToProps(state) {
     return {
         users: state.users
-    };
+    }
 }
 
-// Get actions and pass them as props to to UserList
-//      > now UserList has this.props.selectUser
-function matchDispatchToProps(dispatch){
-    return bindActionCreators({selectUser: selectUser}, dispatch);
+ // allows mapping of data to Store state
+function mapDispatchToProps(dispatch) {
+    // selectUser is set up as a prop
+    return bindActionCreators ({selectUser: selectUser}, dispatch)
 }
 
-// We don't want to return the plain UserList (component) anymore, we want to return the smart Container
-//      > UserList is now aware of state and actions
-export default connect(mapStateToProps, matchDispatchToProps)(UserList);
+
+// connect the props to the component for use
+export default connect(mapStateToProps, mapDispatchToProps)(UserList);

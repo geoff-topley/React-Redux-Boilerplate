@@ -1,9 +1,9 @@
-/*
- * The users reducer will always return an array of users no matter what
- * You need to return something, so if there are no users then just return an empty array
- * */
 
 export default function () {
+
+// REDUCER -  a piece of data we want to save in our app / store
+// NOTES   -  a reducer can contain methods to manioulate data prior to save
+
     return [
         {
             id: 1,
